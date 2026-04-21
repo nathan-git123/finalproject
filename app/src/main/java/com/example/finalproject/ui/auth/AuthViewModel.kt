@@ -16,6 +16,8 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+// Mostly AI-generated
+
 data class AuthUiState(
     val email: String = "",
     val password: String = "",
@@ -32,22 +34,28 @@ class AuthViewModel @Inject constructor(
     private val _ui = MutableStateFlow(AuthUiState())
     val ui: StateFlow<AuthUiState> = _ui.asStateFlow()
 
+
     val isSignedIn: StateFlow<Boolean> = repo.authStateFlow()
         .map { it != null }
         .stateIn(viewModelScope, SharingStarted.Eagerly, repo.currentUser != null)
+
 
     fun onEmail(v: String) { _ui.value = _ui.value.copy(email = v, error = null) }
     fun onPassword(v: String) { _ui.value = _ui.value.copy(password = v, error = null) }
     fun toggleMode() { _ui.value = _ui.value.copy(isSignUpMode = !_ui.value.isSignUpMode, error = null) }
 
+
     fun submit() {
         val s = _ui.value
+
         if (s.email.isBlank() || s.password.length < 6) {
             _ui.value = s.copy(error = "Enter a valid email and 6+ char password")
             return
         }
+
         viewModelScope.launch {
             _ui.value = s.copy(isLoading = true, error = null)
+
             val res = coroutineScope {
                 val authCall = async {
                     if (s.isSignUpMode) repo.signUp(s.email.trim(), s.password)
@@ -57,6 +65,7 @@ class AuthViewModel @Inject constructor(
                 minDelay.await()
                 authCall.await()
             }
+
             _ui.value = _ui.value.copy(
                 isLoading = false,
                 error = res.exceptionOrNull()?.message
@@ -65,4 +74,5 @@ class AuthViewModel @Inject constructor(
     }
 
     fun signOut() = repo.signOut()
+    val userEmail: String get() = repo.currentUser?.email.orEmpty() // I wrote this.
 }

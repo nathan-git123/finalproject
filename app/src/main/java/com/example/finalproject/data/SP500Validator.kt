@@ -6,6 +6,7 @@ import org.json.JSONArray
 import javax.inject.Inject
 import javax.inject.Singleton
 
+// AI Generated.
 @Singleton
 class SP500Validator @Inject constructor(
     @ApplicationContext private val context: Context

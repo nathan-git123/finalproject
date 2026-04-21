@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <!-- I wrote this section. I used the AI to tell me what to look into, then pieced it together. -->
+    <!-- INTERNET for internet calls, POST for notifications, foreground for notifications on foreground so it alerts when app not open -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />

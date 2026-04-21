@@ -24,6 +24,7 @@ import com.example.finalproject.ui.auth.AuthViewModel
 import com.example.finalproject.ui.components.LoadingIndicator
 import com.example.finalproject.ui.watchlist.WatchlistViewModel
 
+// AI generated
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
@@ -45,7 +46,7 @@ fun HomeScreen(
         else homeVm.allTickers.filter { it.contains(query.trim(), ignoreCase = true) }
     }
 
-    Scaffold(topBar = {
+    Scaffold(topBar = { // I edited this part.
         TopAppBar(
             title = { Text("MessagingApp") },
             actions = {
@@ -65,7 +66,7 @@ fun HomeScreen(
             OutlinedTextField(
                 value = query,
                 onValueChange = { query = it.uppercase() },
-                label = { Text("Search S&P 500") },
+                label = { Text("Search S&P 500 Top 10") }, // My line
                 leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
                 trailingIcon = {
                     if (query.isNotBlank()) {
@@ -78,12 +79,13 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) { // I wrote the two buttons below this.
+                // It's important that you know which account you're signed into.
                 OutlinedButton(onClick = onOpenWatchlist, modifier = Modifier.weight(1f)) {
-                    Text("Watchlist")
+                    Text("${authVm.userEmail}'s Watchlist")
                 }
                 OutlinedButton(onClick = onOpenAlerts, modifier = Modifier.weight(1f)) {
-                    Text("Alerts")
+                    Text("${authVm.userEmail}'s Alerts")
                 }
             }
             HorizontalDivider()

@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import com.example.finalproject.data.SP500Validator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
-
+// AI Generated.
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     validator: SP500Validator

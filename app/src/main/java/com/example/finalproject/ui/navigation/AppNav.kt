@@ -26,6 +26,8 @@ object Routes {
         if (presetTicker == null) "alerts?preset=" else "alerts?preset=$presetTicker"
 }
 
+
+// AI generated
 @Composable
 fun AppNav() {
     val nav = rememberNavController()
@@ -45,7 +47,7 @@ fun AppNav() {
                 onSignedOut = { nav.navigate(Routes.AUTH) { popUpTo(0) } }
             )
         }
-        composable(Routes.WATCHLIST) {
+        composable(Routes.WATCHLIST) { // I wrote this.
             WatchlistScreen(
                 onBack = { nav.popBackStack() },
                 onOpenStock = { ticker -> nav.navigate(Routes.stock(ticker)) }
@@ -65,7 +67,7 @@ fun AppNav() {
                 presetTicker = preset
             )
         }
-        composable(Routes.CHAT) { backStack ->
+        composable(Routes.CHAT) { backStack -> // I wrote this part to get a feel for it.
             val ticker = backStack.arguments?.getString("ticker") ?: "GENERAL"
             ChatScreen(ticker = ticker, onBack = { nav.popBackStack() })
         }

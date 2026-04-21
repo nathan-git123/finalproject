@@ -8,6 +8,7 @@ import com.example.finalproject.ui.navigation.AppNav
 import com.example.finalproject.ui.theme.FinalprojectTheme
 import dagger.hilt.android.AndroidEntryPoint
 
+// AI Generated.
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
