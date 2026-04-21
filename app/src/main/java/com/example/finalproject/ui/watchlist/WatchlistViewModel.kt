@@ -13,6 +13,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,7 +21,8 @@ import javax.inject.Inject
 data class WatchlistUiState(
     val draft: String = "",
     val adding: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isLoading: Boolean = true
 )
 
 @HiltViewModel
@@ -40,6 +42,7 @@ class WatchlistViewModel @Inject constructor(
         .flatMapLatest { uid ->
             if (uid == null) flowOf(emptyList()) else repo.watchlistFor(uid)
         }
+        .onEach { _ui.value = _ui.value.copy(isLoading = false) }
         .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun onDraft(v: String) { _ui.value = _ui.value.copy(draft = v, error = null) }

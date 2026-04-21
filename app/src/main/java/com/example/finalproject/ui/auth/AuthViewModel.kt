@@ -4,6 +4,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.data.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.async
+import kotlinx.coroutines.coroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
@@ -45,8 +48,15 @@ class AuthViewModel @Inject constructor(
         }
         viewModelScope.launch {
             _ui.value = s.copy(isLoading = true, error = null)
-            val res = if (s.isSignUpMode) repo.signUp(s.email.trim(), s.password)
-            else repo.signIn(s.email.trim(), s.password)
+            val res = coroutineScope {
+                val authCall = async {
+                    if (s.isSignUpMode) repo.signUp(s.email.trim(), s.password)
+                    else repo.signIn(s.email.trim(), s.password)
+                }
+                val minDelay = async { delay(3000) }
+                minDelay.await()
+                authCall.await()
+            }
             _ui.value = _ui.value.copy(
                 isLoading = false,
                 error = res.exceptionOrNull()?.message

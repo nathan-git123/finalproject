@@ -1,4 +1,4 @@
-﻿package com.example.finalproject.ui.chat
+package com.example.finalproject.ui.chat
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -17,7 +18,8 @@ import javax.inject.Inject
 data class ChatUiState(
     val draft: String = "",
     val sending: Boolean = false,
-    val error: String? = null
+    val error: String? = null,
+    val isLoading: Boolean = true
 )
 
 @HiltViewModel
@@ -38,10 +40,15 @@ class ChatViewModel @Inject constructor(
                     chatRepo.messagesFor(t).collect { emit(it) }
                 }
             }
-        }.stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+        }
+        .onEach { _ui.value = _ui.value.copy(isLoading = false) }
+        .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
     fun bindTicker(ticker: String) {
-        if (_ticker.value != ticker) _ticker.value = ticker
+        if (_ticker.value != ticker) {
+            _ui.value = _ui.value.copy(isLoading = true)
+            _ticker.value = ticker
+        }
     }
 
     fun onDraft(v: String) { _ui.value = _ui.value.copy(draft = v, error = null) }

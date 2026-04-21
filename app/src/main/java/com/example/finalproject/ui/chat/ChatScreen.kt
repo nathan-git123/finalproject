@@ -17,6 +17,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.finalproject.data.Message
+import com.example.finalproject.ui.components.LoadingIndicator
 import java.text.SimpleDateFormat
 import java.util.Locale
 
@@ -70,17 +71,33 @@ fun ChatScreen(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 4.dp)
                 )
             }
-            LazyColumn(
-                state = listState,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .weight(1f)
-                    .padding(horizontal = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
-                contentPadding = PaddingValues(vertical = 12.dp)
-            ) {
-                items(messages, key = { it.id }) { msg ->
-                    MessageBubble(msg = msg, isMine = msg.senderId == meUid)
+            when {
+                state.isLoading -> LoadingIndicator(label = "Loading messages\u2026")
+                messages.isEmpty() -> {
+                    Box(
+                        modifier = Modifier.fillMaxSize(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Text(
+                            "No messages yet. Be the first to post.",
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+                else -> {
+                    LazyColumn(
+                        state = listState,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .weight(1f)
+                            .padding(horizontal = 12.dp),
+                        verticalArrangement = Arrangement.spacedBy(6.dp),
+                        contentPadding = PaddingValues(vertical = 12.dp)
+                    ) {
+                        items(messages, key = { it.id }) { msg ->
+                            MessageBubble(msg = msg, isMine = msg.senderId == meUid)
+                        }
+                    }
                 }
             }
         }

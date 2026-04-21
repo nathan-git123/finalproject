@@ -13,6 +13,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.finalproject.ui.auth.AuthViewModel
+import com.example.finalproject.ui.components.LoadingIndicator
 import com.example.finalproject.ui.watchlist.WatchlistViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -25,6 +26,7 @@ fun HomeScreen(
     watchlistVm: WatchlistViewModel = hiltViewModel()
 ) {
     val items by watchlistVm.items.collectAsState()
+    val state by watchlistVm.ui.collectAsState()
 
     Scaffold(topBar = {
         TopAppBar(
@@ -48,20 +50,22 @@ fun HomeScreen(
             }
             HorizontalDivider()
 
-            if (items.isEmpty()) {
-                EmptyState(onOpenWatchlist = onOpenWatchlist)
-            } else {
-                Text("Chat rooms:", style = MaterialTheme.typography.titleMedium)
-                LazyColumn(
-                    verticalArrangement = Arrangement.spacedBy(8.dp),
-                    modifier = Modifier.fillMaxSize()
-                ) {
-                    items(items, key = { it.ticker }) { item ->
-                        Button(
-                            onClick = { onOpenChat(item.ticker) },
-                            modifier = Modifier.fillMaxWidth()
-                        ) {
-                            Text("${item.ticker} chatroom")
+            when {
+                state.isLoading -> LoadingIndicator()
+                items.isEmpty() -> EmptyState(onOpenWatchlist = onOpenWatchlist)
+                else -> {
+                    Text("Chat rooms:", style = MaterialTheme.typography.titleMedium)
+                    LazyColumn(
+                        verticalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(items, key = { it.ticker }) { item ->
+                            Button(
+                                onClick = { onOpenChat(item.ticker) },
+                                modifier = Modifier.fillMaxWidth()
+                            ) {
+                                Text("${item.ticker} chatroom")
+                            }
                         }
                     }
                 }
