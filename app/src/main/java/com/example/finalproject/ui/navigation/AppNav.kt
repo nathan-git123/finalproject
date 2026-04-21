@@ -1,4 +1,4 @@
-﻿package com.example.finalproject.ui.navigation
+package com.example.finalproject.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
@@ -7,6 +7,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.ui.auth.AuthScreen
 import com.example.finalproject.ui.chat.ChatScreen
 import com.example.finalproject.ui.home.HomeScreen
+import com.example.finalproject.ui.stock.StockDetailScreen
 import com.example.finalproject.ui.watchlist.WatchlistScreen
 
 object Routes {
@@ -14,7 +15,9 @@ object Routes {
     const val HOME = "home"
     const val WATCHLIST = "watchlist"
     const val CHAT = "chat/{ticker}"
+    const val STOCK = "stock/{ticker}"
     fun chat(ticker: String) = "chat/$ticker"
+    fun stock(ticker: String) = "stock/$ticker"
 }
 
 @Composable
@@ -33,17 +36,25 @@ fun AppNav() {
             HomeScreen(
                 onOpenChat = { ticker -> nav.navigate(Routes.chat(ticker)) },
                 onOpenWatchlist = { nav.navigate(Routes.WATCHLIST) },
+                onOpenStock = { ticker -> nav.navigate(Routes.stock(ticker)) },
                 onSignedOut = {
                     nav.navigate(Routes.AUTH) { popUpTo(0) }
                 }
             )
         }
         composable(Routes.WATCHLIST) {
-            WatchlistScreen(onBack = { nav.popBackStack() })
+            WatchlistScreen(
+                onBack = { nav.popBackStack() },
+                onOpenStock = { ticker -> nav.navigate(Routes.stock(ticker)) }
+            )
         }
         composable(Routes.CHAT) { backStack ->
             val ticker = backStack.arguments?.getString("ticker") ?: "GENERAL"
             ChatScreen(ticker = ticker, onBack = { nav.popBackStack() })
+        }
+        composable(Routes.STOCK) { backStack ->
+            val ticker = backStack.arguments?.getString("ticker") ?: "AAPL"
+            StockDetailScreen(ticker = ticker, onBack = { nav.popBackStack() })
         }
     }
 }

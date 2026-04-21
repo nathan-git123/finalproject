@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.watchlist
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -24,6 +25,7 @@ import com.example.finalproject.ui.components.NeonPink
 @Composable
 fun WatchlistScreen(
     onBack: () -> Unit,
+    onOpenStock: (String) -> Unit,
     vm: WatchlistViewModel = hiltViewModel()
 ) {
     val state by vm.ui.collectAsState()
@@ -103,7 +105,11 @@ fun WatchlistScreen(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(items, key = { it.ticker }) { item ->
-                            ElevatedCard(modifier = Modifier.fillMaxWidth()) {
+                            ElevatedCard(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .clickable { onOpenStock(item.ticker) }
+                            ) {
                                 Row(
                                     modifier = Modifier
                                         .fillMaxWidth()
