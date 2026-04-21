@@ -5,7 +5,6 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
 
-/** Retrofit interface for Yahoo Finance unofficial chart endpoint. */
 interface YahooFinanceApi {
     @GET("v8/finance/chart/{ticker}")
     suspend fun getChart(
@@ -15,39 +14,19 @@ interface YahooFinanceApi {
     ): YahooChartResponse
 }
 
-// --- DTOs: only the fields we need. Moshi ignores the rest. ---
-
-data class YahooChartResponse(
-    val chart: YahooChart
-)
-
-data class YahooChart(
-    val result: List<YahooChartResult>?,
-    val error: YahooError?
-)
-
-data class YahooError(
-    val code: String?,
-    val description: String?
-)
-
+data class YahooChartResponse(val chart: YahooChart)
+data class YahooChart(val result: List<YahooChartResult>?, val error: YahooError?)
+data class YahooError(val code: String?, val description: String?)
 data class YahooChartResult(
     val meta: YahooMeta,
     val timestamp: List<Long>?,
     val indicators: YahooIndicators
 )
-
 data class YahooMeta(
     @Json(name = "regularMarketPrice") val regularMarketPrice: Double?,
     @Json(name = "chartPreviousClose") val chartPreviousClose: Double?,
     @Json(name = "previousClose") val previousClose: Double?,
     val symbol: String?
 )
-
-data class YahooIndicators(
-    val quote: List<YahooQuote>?
-)
-
-data class YahooQuote(
-    val close: List<Double?>?
-)
+data class YahooIndicators(val quote: List<YahooQuote>?)
+data class YahooQuote(val close: List<Double?>?)

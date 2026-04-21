@@ -1,9 +1,9 @@
 package com.example.finalproject.ui.stock
 
-import android.graphics.Color as AndroidColor
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -31,10 +31,10 @@ import java.util.Locale
 fun StockDetailScreen(
     ticker: String,
     onBack: () -> Unit,
+    onSetAlert: (String) -> Unit,
     vm: StockDetailViewModel = hiltViewModel()
 ) {
     LaunchedEffect(ticker) { vm.bindTicker(ticker) }
-
     val state by vm.ui.collectAsState()
 
     Scaffold(
@@ -45,15 +45,16 @@ fun StockDetailScreen(
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")
                     }
+                },
+                actions = {
+                    IconButton(onClick = { onSetAlert(ticker) }) {
+                        Icon(Icons.Default.Notifications, contentDescription = "Set alert")
+                    }
                 }
             )
         }
     ) { padding ->
-        Box(
-            modifier = Modifier
-                .padding(padding)
-                .fillMaxSize()
-        ) {
+        Box(modifier = Modifier.padding(padding).fillMaxSize()) {
             when {
                 state.isLoading -> LoadingIndicator(label = "Loading $ticker\u2026")
                 state.error != null -> ErrorView(message = state.error!!, onRetry = vm::retry)
@@ -70,16 +71,9 @@ private fun ErrorView(message: String, onRetry: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "Couldn\u2019t load stock data",
-            style = MaterialTheme.typography.titleMedium
-        )
+        Text("Couldn\u2019t load stock data", style = MaterialTheme.typography.titleMedium)
         Spacer(Modifier.height(8.dp))
-        Text(
-            message,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Text(message, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
         Spacer(Modifier.height(16.dp))
         Button(onClick = onRetry) { Text("Retry") }
     }
@@ -92,15 +86,10 @@ private fun SnapshotView(snap: StockSnapshot) {
     val sign = if (isUp) "+" else ""
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier = Modifier.fillMaxSize().padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        Text(
-            "$${"%.2f".format(snap.currentPrice)}",
-            style = MaterialTheme.typography.displaySmall
-        )
+        Text("$${"%.2f".format(snap.currentPrice)}", style = MaterialTheme.typography.displaySmall)
         Text(
             "$sign${"%.2f".format(snap.dayChange)} ($sign${"%.2f".format(snap.dayChangePct)}%) today",
             color = changeColor,
@@ -131,11 +120,9 @@ private fun ChartView(snap: StockSnapshot, modifier: Modifier = Modifier) {
                 setScaleEnabled(true)
                 setPinchZoom(true)
                 setDrawGridBackground(false)
-
                 axisRight.isEnabled = false
                 axisLeft.textColor = axisArgb
                 axisLeft.setDrawGridLines(false)
-
                 xAxis.position = XAxis.XAxisPosition.BOTTOM
                 xAxis.textColor = axisArgb
                 xAxis.setDrawGridLines(false)

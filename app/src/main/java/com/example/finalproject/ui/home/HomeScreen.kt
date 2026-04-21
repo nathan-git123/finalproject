@@ -29,6 +29,7 @@ import com.example.finalproject.ui.watchlist.WatchlistViewModel
 fun HomeScreen(
     onOpenChat: (String) -> Unit,
     onOpenWatchlist: () -> Unit,
+    onOpenAlerts: () -> Unit,
     onOpenStock: (String) -> Unit,
     onSignedOut: () -> Unit,
     authVm: AuthViewModel = hiltViewModel(),
@@ -77,8 +78,13 @@ fun HomeScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            OutlinedButton(onClick = onOpenWatchlist, modifier = Modifier.fillMaxWidth()) {
-                Text("My Watchlist")
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                OutlinedButton(onClick = onOpenWatchlist, modifier = Modifier.weight(1f)) {
+                    Text("Watchlist")
+                }
+                OutlinedButton(onClick = onOpenAlerts, modifier = Modifier.weight(1f)) {
+                    Text("Alerts")
+                }
             }
             HorizontalDivider()
 
@@ -114,10 +120,7 @@ fun HomeScreen(
 private fun SearchResults(matches: List<String>, onTap: (String) -> Unit) {
     if (matches.isEmpty()) {
         Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-            Text(
-                "No matches.",
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+            Text("No matches.", color = MaterialTheme.colorScheme.onSurfaceVariant)
         }
         return
     }
@@ -127,14 +130,10 @@ private fun SearchResults(matches: List<String>, onTap: (String) -> Unit) {
     ) {
         items(matches, key = { it }) { t ->
             ElevatedCard(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .clickable { onTap(t) }
+                modifier = Modifier.fillMaxWidth().clickable { onTap(t) }
             ) {
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                    modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 12.dp),
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text(t, style = MaterialTheme.typography.titleMedium)
@@ -151,11 +150,7 @@ private fun EmptyState(onOpenWatchlist: () -> Unit) {
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(
-            "No chat rooms yet",
-            style = MaterialTheme.typography.headlineSmall,
-            textAlign = TextAlign.Center
-        )
+        Text("No chat rooms yet", style = MaterialTheme.typography.headlineSmall, textAlign = TextAlign.Center)
         Spacer(Modifier.height(8.dp))
         Text(
             "Add a stock to your watchlist to start chatting about it with other users.",
@@ -165,10 +160,7 @@ private fun EmptyState(onOpenWatchlist: () -> Unit) {
             modifier = Modifier.padding(horizontal = 16.dp)
         )
         Spacer(Modifier.height(24.dp))
-        Button(
-            onClick = onOpenWatchlist,
-            modifier = Modifier.fillMaxWidth(0.7f)
-        ) {
+        Button(onClick = onOpenWatchlist, modifier = Modifier.fillMaxWidth(0.7f)) {
             Text("Go to Watchlist")
         }
     }
