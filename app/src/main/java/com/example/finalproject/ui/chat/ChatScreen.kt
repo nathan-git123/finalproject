@@ -1,4 +1,4 @@
-﻿package com.example.finalproject.ui.chat
+package com.example.finalproject.ui.chat
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.finalproject.data.Message
@@ -35,7 +34,6 @@ fun ChatScreen(
     val meUid = vm.currentUserId
     val listState = rememberLazyListState()
 
-    // Auto-scroll to bottom when new messages arrive
     LaunchedEffect(messages.size) {
         if (messages.isNotEmpty()) listState.animateScrollToItem(messages.lastIndex)
     }
@@ -89,6 +87,12 @@ fun ChatScreen(
     }
 }
 
+private fun usernameFromEmail(email: String): String {
+    if (email.isBlank()) return "unknown"
+    val at = email.indexOf('@')
+    return if (at > 0) email.substring(0, at) else email
+}
+
 @Composable
 private fun MessageBubble(msg: Message, isMine: Boolean) {
     val bg = if (isMine) MaterialTheme.colorScheme.primary
@@ -103,7 +107,7 @@ private fun MessageBubble(msg: Message, isMine: Boolean) {
     ) {
         if (!isMine) {
             Text(
-                msg.senderEmail.ifBlank { "unknown" },
+                usernameFromEmail(msg.senderEmail),
                 style = MaterialTheme.typography.labelSmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(start = 12.dp, bottom = 2.dp)
