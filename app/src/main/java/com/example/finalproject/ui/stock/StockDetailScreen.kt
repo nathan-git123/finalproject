@@ -25,7 +25,7 @@ import com.github.mikephil.charting.formatter.ValueFormatter
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-
+// AI Generated
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun StockDetailScreen(

@@ -9,12 +9,11 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
-
+// AI assisted when stuck (about half).
 @Singleton
 class ChatRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
-    /** Stream of messages for a ticker, ordered oldest-first. Updates in real-time. */
     fun messagesFor(ticker: String): Flow<List<Message>> = callbackFlow {
         val reg = firestore.collection("chats")
             .document(ticker)

@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+// AI generated
 data class ChatUiState(
     val draft: String = "",
     val sending: Boolean = false,

@@ -27,7 +27,7 @@ data class AlertsUiState(
     val error: String? = null,
     val adding: Boolean = false
 )
-
+// Mostly AI generated.
 @HiltViewModel
 class AlertsViewModel @Inject constructor(
     private val alertsRepo: AlertsRepository,
@@ -92,8 +92,8 @@ class AlertsViewModel @Inject constructor(
     }
 
     private fun shouldFire(direction: AlertDirection, threshold: Double, price: Double): Boolean = when (direction) {
-        AlertDirection.ABOVE -> price >= threshold
-        AlertDirection.BELOW -> price <= threshold
+        AlertDirection.ABOVE -> price > threshold
+        AlertDirection.BELOW -> price < threshold // I wrote this logic.
     }
 
     fun deleteAlert(alertId: String) {

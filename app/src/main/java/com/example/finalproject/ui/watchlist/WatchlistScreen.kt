@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.finalproject.ui.components.LoadingIndicator
 import com.example.finalproject.ui.components.NeonPink
-
+// AI generated
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WatchlistScreen(
@@ -34,7 +34,7 @@ fun WatchlistScreen(
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Watchlist") },
+                title = { Text("${authVm.userEmail}'s Watchlist") },
                 navigationIcon = {
                     IconButton(onClick = onBack) {
                         Icon(Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "Back")

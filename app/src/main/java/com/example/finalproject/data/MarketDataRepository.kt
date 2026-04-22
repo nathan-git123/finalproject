@@ -2,7 +2,7 @@ package com.example.finalproject.data
 
 import javax.inject.Inject
 import javax.inject.Singleton
-
+// AI Generated
 @Singleton
 class MarketDataRepository @Inject constructor(
     private val api: YahooFinanceApi

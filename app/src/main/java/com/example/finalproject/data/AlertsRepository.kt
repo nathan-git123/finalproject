@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
-
+// Mostly AI generated.
 @Singleton
 class AlertsRepository @Inject constructor(
     private val firestore: FirebaseFirestore

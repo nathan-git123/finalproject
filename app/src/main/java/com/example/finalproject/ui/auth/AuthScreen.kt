@@ -78,8 +78,8 @@ fun AuthScreen(
 
             TextButton(onClick = vm::toggleMode) {
                 Text(
-                    if (state.isSignUpMode) "Have an account? Sign in"
-                    else "No account? Create one"
+                    if (state.isSignUpMode) "Sign in"
+                    else "Create an account"
                 )
             }
         }

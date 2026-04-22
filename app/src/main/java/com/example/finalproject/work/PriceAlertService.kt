@@ -27,7 +27,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+// Mostly AI generated.
 @AndroidEntryPoint
 class PriceAlertService : Service() {
 

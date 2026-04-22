@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import retrofit2.http.GET
 import retrofit2.http.Path
 import retrofit2.http.Query
-
+// AI Generated
 interface YahooFinanceApi {
     @GET("v8/finance/chart/{ticker}")
     suspend fun getChart(

@@ -9,12 +9,11 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import javax.inject.Singleton
-
+// AI assisted
 @Singleton
 class WatchlistRepository @Inject constructor(
     private val firestore: FirebaseFirestore
 ) {
-    /** Real-time stream of the user's watchlist, newest-added first. */
     fun watchlistFor(userId: String): Flow<List<WatchlistItem>> = callbackFlow {
         val reg = firestore.collection("users")
             .document(userId)

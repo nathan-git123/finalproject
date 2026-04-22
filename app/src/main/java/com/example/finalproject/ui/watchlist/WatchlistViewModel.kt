@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
+// AI assisted
 data class WatchlistUiState(
     val draft: String = "",
     val adding: Boolean = false,
@@ -54,7 +54,7 @@ class WatchlistViewModel @Inject constructor(
 
         if (!validator.isValid(t)) {
             _ui.value = _ui.value.copy(
-                error = "$t is not a supported ticker. Try AAPL, MSFT, NVDA, GOOGL, AMZN, META, BRK.B, LLY, AVGO, or TSLA."
+                error = "$t is not supported. Only the largest 10 components of the S&P 500 are supported."
             )
             return
         }

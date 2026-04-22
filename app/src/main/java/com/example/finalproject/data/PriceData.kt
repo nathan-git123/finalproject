@@ -1,5 +1,5 @@
 package com.example.finalproject.data
-
+// AI Generated
 /** One price point on the chart: x=timestamp in seconds, y=close price. */
 data class PricePoint(
     val timestampSec: Long,

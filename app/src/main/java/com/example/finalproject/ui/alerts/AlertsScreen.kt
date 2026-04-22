@@ -30,7 +30,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.finalproject.data.Alert
 import com.example.finalproject.data.AlertDirection
 import com.example.finalproject.ui.components.LoadingIndicator
-
+// Mostly AI generated.
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AlertsScreen(

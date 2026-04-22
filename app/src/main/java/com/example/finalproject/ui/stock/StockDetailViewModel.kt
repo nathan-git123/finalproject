@@ -1,5 +1,5 @@
 package com.example.finalproject.ui.stock
-
+// AI Generated
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.finalproject.data.MarketDataRepository

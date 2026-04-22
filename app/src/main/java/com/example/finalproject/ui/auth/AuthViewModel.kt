@@ -48,8 +48,8 @@ class AuthViewModel @Inject constructor(
     fun submit() {
         val s = _ui.value
 
-        if (s.email.isBlank() || s.password.length < 6) {
-            _ui.value = s.copy(error = "Enter a valid email and 6+ char password")
+        if (s.email.isBlank() || s.password.length < 8) {
+            _ui.value = s.copy(error = "Invalid email or 6+ character password.")
             return
         }
 
@@ -74,5 +74,5 @@ class AuthViewModel @Inject constructor(
     }
 
     fun signOut() = repo.signOut()
-    val userEmail: String get() = repo.currentUser?.email.orEmpty() // I wrote this.
+    val userEmail: String get() = repo.currentUser?.email.orEmpty()
 }

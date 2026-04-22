@@ -17,7 +17,7 @@ import com.example.finalproject.data.AlertDirection
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
-
+// Mostly AI generated.
 @Singleton
 class AlertNotifier @Inject constructor(
     @ApplicationContext private val context: Context
@@ -49,7 +49,7 @@ class AlertNotifier @Inject constructor(
 
         val verb = if (alert.direction == AlertDirection.ABOVE) "above" else "below"
         val title = "${alert.ticker} is $verb $${"%.2f".format(alert.threshold)}"
-        val body = "Current price: $${"%.2f".format(currentPrice)}"
+        val body = "Last price: $${"%.2f".format(currentPrice)}" // my line
 
         val intent = Intent(context, MainActivity::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP

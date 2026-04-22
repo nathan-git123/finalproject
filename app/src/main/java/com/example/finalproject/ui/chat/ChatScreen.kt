@@ -20,7 +20,7 @@ import com.example.finalproject.data.Message
 import com.example.finalproject.ui.components.LoadingIndicator
 import java.text.SimpleDateFormat
 import java.util.Locale
-
+// AI generated
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ChatScreen(
